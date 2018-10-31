@@ -1,0 +1,25 @@
+<% include partials/header %>
+<div class="container">
+  <h1 class="text-center">Add a New Campground</h1>
+  <form action="/campgrounds" method="POST" class="mx-auto" style="width: 400px">
+    <!-- NAME -->
+    <div class="form-group">
+      <label for="name">Name</label>
+      <!-- name attributes are to grab the data from req.body -->
+      <input class="form-control" type="text" name="name" placeholder="name">
+    </div>
+    <!-- IMAGE -->
+    <div class="form-group">
+      <label for="imageURL">Image URL</label>
+      <input class="form-control" type="text" name='image' placeholder="image url">
+    </div>
+    <!-- DESCRIPTION -->
+    <div class="form-group">
+      <label for="description">Description</label>
+      <input class="form-control" type="text" name='description' placeholder="description">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <a href="/campgrounds">Go Back</a>
+  </form>
+  <% include partials/footer %>
+</div>
