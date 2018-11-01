@@ -76,6 +76,6 @@ app.get("/campgrounds/:id", (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log("YelpCamp Server has started!");
+  console.log("YelpCamp Server has started on port 3000!");
 });
 
