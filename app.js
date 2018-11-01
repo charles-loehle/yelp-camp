@@ -12,21 +12,6 @@ mongoose.connect("mongodb://localhost:27017/yelp_camp", { useNewUrlParser: true 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 
-// Campground.create(
-//   {
-//     name: "Granite Hill",
-//     image: "https://farm4.staticflickr.com/3492/3823130660_0509aa841f.jpg",
-//     description: "A huge granite hill, no water or bathrooms!"
-//   }, (err, campground) => {
-//     if (err) {
-//       console.log(err);
-//     } else {
-//       console.log("NEWLY CREATED CAMPGROUND");
-//       console.log(campground);
-//     }
-//   });
-
-
 app.get('/', (req, res) => res.render('landing'));
 
 // Index - Show all the campgrounds 
@@ -66,10 +51,11 @@ app.get("/campgrounds/new", (req, res) => {
 // Show - Show a specific campground
 app.get("/campgrounds/:id", (req, res) => {
   //find the campground with provided id
-  Campground.findById(req.params.id, (err, foundCampground) => {
+  Campground.findById(req.params.id).populate.exec((err, foundCampground) => {
     if (err) {
       console.log(err);
     } else {
+      console.log(foundCampground);
       res.render("show", { campground: foundCampground });
     }
   });
