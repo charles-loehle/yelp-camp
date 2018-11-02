@@ -1,0 +1,20 @@
+<% include ../partials/header %>
+<div class="container">
+  <h1 class="text-center">Add a New Comment To
+    <%= campground.name %>
+  </h1>
+  <form action="/campgrounds/<%= campground._id %>/comments" method="POST" class="mx-auto" style="width: 400px">
+    <!-- COMMENT -->
+    <div class="form-group">
+      <!-- name attributes are to grab the data from req.body -->
+      <input class="form-control" type="text" name="comment[text]" placeholder="text">
+    </div>
+    <!-- AUTHOR -->
+    <div class="form-group">
+      <input class="form-control" type="text" name='comment[author]' placeholder="author">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <a href="/campgrounds">Go Back</a>
+  </form>
+  <% include ../partials/footer %>
+</div>
