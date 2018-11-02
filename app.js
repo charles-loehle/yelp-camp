@@ -4,6 +4,9 @@ var express = require('express'),
   bodyParser = require("body-parser"),
   mongoose = require("mongoose");
 Campground = require("./models/campground");
+seedDB = require("./seeds");
+
+seedDB();
 
 mongoose.connect("mongodb://localhost:27017/yelp_camp", { useNewUrlParser: true });
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -73,6 +76,6 @@ app.get("/campgrounds/:id", (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log("YelpCamp Server has started!");
+  console.log("YelpCamp Server has started on port 3000!");
 });
 
