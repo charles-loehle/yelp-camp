@@ -10,6 +10,7 @@ var express = require('express'),
   User = require("./models/user"),
   seedDB = require("./seeds");
 
+//requireing routes 
 var commentRoutes = require("./routes/comments"),
   campgroundRoutes = require("./routes/campgrounds"),
   indexRoutes = require("./routes/index")
@@ -37,9 +38,9 @@ app.use((req, res, next) => {
   next();
 })
 
-app.use(indexRoutes);
-app.use(campgroundRoutes);
-app.use(commentRoutes);
+app.use("/", indexRoutes);
+app.use("/campgrounds", campgroundRoutes);
+app.use("/campgrounds/:id/comments", commentRoutes);
 
 app.listen(port, () => {
   console.log("YelpCamp Server has started on port 3000!");
