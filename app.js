@@ -16,6 +16,23 @@ app.set('view engine', 'ejs');
 app.use(express.static(__dirname + "/public"));
 seedDB();
 
+// PASSPORT CONFIG
+app.use(require("express-session")({
+  secret: "I like dogs",
+  resave: false,
+  saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+app.use((req, res, next) => {
+  res.locals.currentUser = req.user;
+  next();
+})
+
 app.get('/', (req, res) => res.render('landing'));
 
 // Index - Show all the campgrounds 
@@ -69,7 +86,7 @@ app.get("/campgrounds/:id", (req, res) => {
 // COMMENTS ROUTES
 //==================
 
-app.get("/campgrounds/:id/comments/new", (req, res) => {
+app.get("/campgrounds/:id/comments/new", isLoggedIn, (req, res) => {
   // find campground by id
   Campground.findById(req.params.id, (err, campground) => {
     if (err) {
@@ -80,7 +97,7 @@ app.get("/campgrounds/:id/comments/new", (req, res) => {
   });
 });
 
-app.post("/campgrounds/:id/comments", (req, res) => {
+app.post("/campgrounds/:id/comments", isLoggedIn, (req, res) => {
   //lookup campground using ID
   Campground.findById(req.params.id, (err, campground) => {
     if (err) {
@@ -102,6 +119,54 @@ app.post("/campgrounds/:id/comments", (req, res) => {
   //connect new comment to campgrounds
   //redirect campground show page
 });
+
+//===================
+// AUTH ROUTES
+//===================
+
+//show register form
+app.get("/register", (req, res) => {
+  res.render("register");
+});
+//sign up logic
+app.post("/register", (req, res) => {
+  var newUser = new User({ username: req.body.username });
+  User.register(newUser, req.body.password, (err, user) => {
+    if (err) {
+      console.log(err);
+      return res.render("register")
+    }
+    passport.authenticate("local")(req, res, () => {
+      res.redirect("/campgrounds");
+    })
+  });
+})
+
+//show login form
+app.get("/login", (req, res) => {
+  res.render("login")
+})
+//login logic
+app.post("/login", passport.authenticate("local",
+  {
+    successRedirect: "/campgrounds",
+    failureRedirect: "/login"
+  }), (req, res) => {
+  })
+
+//logout route
+app.get("/logout", (req, res) => {
+  req.logout();
+  res.redirect("/campgrounds");
+})
+
+function isLoggedIn(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  } else {
+    res.redirect("/login")
+  }
+}
 
 app.listen(port, () => {
   console.log("YelpCamp Server has started on port 3000!");
