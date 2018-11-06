@@ -1,11 +1,12 @@
 var express = require("express");
-var router = express.Router({ mergParams: true });
+var router = express.Router({ mergeParams: true });
 var Campground = require("../models/campground");
 var Comment = require("../models/comment");
 
 //Comments New
 router.get("/new", isLoggedIn, (req, res) => {
   // find campground by id
+  console.log(req.params.id);
   Campground.findById(req.params.id, (err, campground) => {
     if (err) {
       console.log(err);
@@ -28,8 +29,14 @@ router.post("/", isLoggedIn, (req, res) => {
         if (err) {
           console.log(err);
         } else {
+          //add username and id to comment
+          comment.author.id = req.user._id;
+          comment.author.username = req.user.username;
+          //save comment
+          comment.save();
           campground.comments.push(comment);
           campground.save();
+          console.log(comment);
           res.redirect('/campgrounds/' + campground._id);
         }
       })
