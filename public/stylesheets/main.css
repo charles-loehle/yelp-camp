@@ -1,3 +1,7 @@
 hr{
   margin-top: 3.5rem;
 }
+
+#delete-form {
+  display: inline;
+}
