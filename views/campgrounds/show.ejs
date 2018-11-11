@@ -12,6 +12,7 @@
 
     <div class="col-md-9">
 
+      <!-- DESCRIPTION CARD -->
       <div class="card mb-3">
         <img class=" img-fluid" src="<%= campground.image %>">
         <div class="card-body">
@@ -37,6 +38,7 @@
         </div>
       </div>
 
+      <!-- COMMENT CARD -->
       <div class="card">
         <div class="card-body">
           <a class="btn btn-success float-right" href="/campgrounds/<%= campground._id %>/comments/new">Add New
@@ -51,7 +53,13 @@
               <p>
                 <%= comment.text %>
               </p>
+              <% if(currentUser && comment.author.id.equals(currentUser._id)){ %>
               <a href="/campgrounds/<%=campground._id %>/comments/<%=comment._id %>/edit" class="btn btn-sm btn-warning">Edit</a>
+              <form id="delete-form" action="/campgrounds/<%=campground._id %>/comments/<%=comment._id %>?_method=DELETE"
+                method="POST">
+                <input type="submit" class="btn btn-sm btn-danger" value="Delete">
+              </form>
+              <% } %>
             </div>
           </div>
           <% }) %>
