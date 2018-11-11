@@ -1,0 +1,16 @@
+<% include ../partials/header %>
+<div class="container">
+  <h1 class="text-center">Edit Comment
+  </h1>
+  <form action="/campgrounds/<%= campground_id %>/comments/<%= comment._id %>?_method=PUT" method="POST" class="mx-auto"
+    style="width: 400px">
+    <!-- COMMENT -->
+    <div class="form-group">
+      <!-- name attributes are to grab the data from req.body -->
+      <input class="form-control" type="text" name="comment[text]" value="<%= comment.text %>">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <a href="/campgrounds">Go Back</a>
+  </form>
+  <% include ../partials/footer %>
+</div>

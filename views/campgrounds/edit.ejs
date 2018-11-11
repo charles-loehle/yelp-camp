@@ -1,0 +1,24 @@
+<% include ../partials/header %>
+<div class="container">
+  <h1 class="text-center">Edit
+    <%= campground.name %>
+  </h1>
+  <form action="/campgrounds/<%= campground._id %>?_method=PUT" method="POST" class="mx-auto" style="width: 400px">
+    <!-- NAME -->
+    <div class="form-group">
+      <!-- name attributes are to grab the data from req.body -->
+      <input class="form-control" type="text" name="campground[name]" value="<%= campground.name %>">
+    </div>
+    <!-- IMAGE -->
+    <div class="form-group">
+      <input class="form-control" type="text" name='campground[image]' value="<%= campground.image %>">
+    </div>
+    <!-- DESCRIPTION -->
+    <div class="form-group">
+      <input class="form-control" type="text" name='campground[description]' value="<%= campground.description %>">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <a href="/campgrounds">Go Back</a>
+  </form>
+  <% include ../partials/footer %>
+</div>
