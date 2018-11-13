@@ -9,6 +9,11 @@
       <!-- name attributes are to grab the data from req.body -->
       <input class="form-control" type="text" name="campground[name]" value="<%= campground.name %>">
     </div>
+    <!-- PRICE -->
+    <div class="form-group">
+      <input class="form-control" type="number" name="campground[price]" value="<%= campground.price %>" min="0.01"
+        step="0.01">
+    </div>
     <!-- IMAGE -->
     <div class="form-group">
       <input class="form-control" type="text" name='campground[image]' value="<%= campground.image %>">
